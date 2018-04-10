@@ -22,7 +22,9 @@ module.exports = {
         return res.status(200).send({successful: true, message: 'Successful login'});
       }
     })
-    .catch(err=>{});
+    .catch(err=>{
+      return res.status(200).send({successful: false, message: '.catch error', error: err});
+    });
   },
   
   getProjects: function (req, res) {
@@ -36,25 +38,27 @@ module.exports = {
       }
       return res.status(200).send(data);
     })
-    .catch(err=>{});
+    .catch(err=>{
+      return res.status(200).send({successful: false, message: '.catch error', error: err});
+    });
   },
   
   addProject: (req, res) => {
+    
+    if (!req.session.isLoggedIn){
+      return res.status(200).send({isLoggedIn: false, message: 'Must be logged in to use this feature'});
+    }
+    
     var db = app.get('db');
-    
-    // if (!req.session.isLoggedIn){
-    //   return res.status(200).send({isLoggedIn: false, message: 'Must be logged in to use this feature'});
-    // }
-    
     let {newProjectDescription, newProjectImage, newProjectTitle, newProjectVideoLink} = req.body;
-    console.log('adding project');
-    console.log(newProjectTitle);
-    db.addProject([newProjectDescription, newProjectImage, newProjectTitle, newProjectVideoLink])
+    
+    db.addProject([newProjectTitle, newProjectDescription, newProjectImage, newProjectVideoLink])
     .then(result => {
-      console.log('done');
-      console.log(result);
+      return res.status(200).send({successful: true, message: 'Successfully added a new project to the db'});
     })
-    .catch(err=>{});
+    .catch(err=>{
+      return res.status(200).send({successful: false, message: '.catch error', error: err});
+    });
   },
   
   updateProject: (req, res) => {
@@ -70,7 +74,9 @@ module.exports = {
       console.log(result);
       return res.status(200).send({successful: true, message: 'Successfully edited the project info in the db'});
     })
-    .catch(err=>{});
+    .catch(err=>{
+      return res.status(200).send({successful: false, message: '.catch error', error: err});
+    });
   },
   
   deleteProject: (req, res) => {
@@ -85,6 +91,8 @@ module.exports = {
     .then( result => {
       return res.status(200).send({successful: true, message: 'Successfully deleted project from db'});
     })
-    .catch(err=>{});
+    .catch(err=>{
+      return res.status(200).send({successful: false, message: '.catch error', error: err});
+    });
   },
 };

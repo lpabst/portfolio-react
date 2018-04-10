@@ -1,3 +1,3 @@
 insert into portfolioprojects
-(description, image, title, videoLink)
+(title, description, image, video)
 values ($1, $2, $3, $4)
