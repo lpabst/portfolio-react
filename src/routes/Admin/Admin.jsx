@@ -91,8 +91,22 @@ class Admin extends Component {
         let {projectId, projectTitle, projectDescription, projectImage, projectVideoLink} = this.state;
         axios.post('/api/updateProject', {projectId, projectTitle, projectDescription, projectImage, projectVideoLink})
         .then( res => {
-            console.log(res);
-            // clear state
+            if (!res.data){
+                console.log(res);
+                alert('unexpected error');
+            }
+            else if (res.data.message){
+                alert(res.data.message);
+            }
+            
+            this.setState({
+                showEditModal: false,
+                projectId: '',
+                projectTitle: '',
+                projectDescription: '',
+                projectImage: '',
+                projectVideoLink: '',
+            })
         })
         .catch(err=>{});
     }
@@ -104,6 +118,7 @@ class Admin extends Component {
         })
         .then( res => {
             if (!res.data){
+                console.log(res);
                 alert('unexpected error');
             }
             else if (res.data.message){
@@ -111,8 +126,8 @@ class Admin extends Component {
             }
             
             this.setState({
-                projectToDelete: null,
                 showAreYouSureModal: false,
+                projectToDelete: null,
             })
         })
         .catch(err=>{});
