@@ -9,7 +9,7 @@ module.exports = {
   login: (req, res) => {
     var db = app.get('db');
     let {username, password} = req.body;
-    
+
     db.login([username, password])
     .then( user => {
       if (!user[0]){
@@ -82,7 +82,7 @@ module.exports = {
     let {projectId} = req.body;
     db.deleteProject([projectId])
     .then( result => {
-      console.log(result);
+      return res.status(200).send({successful: true, message: 'Successfully deleted project from db'});
     })
     .catch(err=>{});
   },

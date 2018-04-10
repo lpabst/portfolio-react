@@ -42,7 +42,7 @@ class Login extends Component {
 
                 <div className='modal'>
                     <p>Username</p>
-                    <input placeholder='Username' value={this.state.username} onChange={(e) => this.setState({username: e.target.value})} />
+                    <input placeholder='Username' value={this.state.username} onChange={(e) => this.setState({username: e.target.value})} autoFocus />
                     <p>Password</p>
                     <input placeholder='Password' value={this.state.password} onChange={(e) => this.setState({password: e.target.value})} />
                     <button onClick={this.login} >Login</button>

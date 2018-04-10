@@ -59,12 +59,13 @@ class Admin extends Component {
     }
 
     componentDidMount() {
+        // check to see if the user is logged in
         axios.get('/api/isLoggedIn')
             .then(response => {
                 if (!response.data.isLoggedIn) {
-                    // redirect to sign in page
+                    document.querySelector('a.hidden').click();
                 } else {
-                    // if the user is logged in as an admin, get the projects for them to see & edit
+                    // if the user is logged in as an admin, get the projects for them to see/edit
                     axios.post('/api/getProjects')
                         .then(res => {
                             this.setState({
