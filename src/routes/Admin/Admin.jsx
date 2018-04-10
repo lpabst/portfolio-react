@@ -162,6 +162,9 @@ class Admin extends Component {
                     console.log(res);
                     alert('unexpected error');
                 }
+                else if (res.data.successful){
+                    this.getProjects();
+                }
                 else if (res.data.message) {
                     alert(res.data.message);
                 }
