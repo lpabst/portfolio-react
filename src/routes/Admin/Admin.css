@@ -4,6 +4,21 @@
     background: #111;
 }
 
+.homeLink{
+    width: 140px;
+    height: 30px;
+    position: absolute;
+    top: 10px;
+    left: calc(50% - 70px);
+    border-radius: 3px;
+    background: #eee;
+    color: #000;
+    text-decoration: none;
+    text-align: center;
+    line-height: 30px;
+    font-size: 15px;
+}
+
 .projectsSection{
     width: 320px;
     background: #ddd;

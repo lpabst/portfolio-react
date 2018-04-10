@@ -192,6 +192,8 @@ class Admin extends Component {
         return (
             <section className='routeWrapper admin'>
 
+                <Link className='homeLink' to='/'>Home/Portfolio</Link>
+
                 <div className='projectsSection'>
                     <p className='projectsWrapperHeader' >Projects</p>
                     <div className='projectsContainer'>
