@@ -42,10 +42,17 @@ class Admin extends Component {
             projectImage: '',
             projectVideoLink: '',
             showAddNewModal: false,
+            newProjectTitle: '',
+            newProjectDescription: '',
+            newProjectImage: '',
+            newProjectVideoLink: '',
         }
 
+        this.closeAllModals = this.closeAllModals.bind(this);
+        this.toggleAddNewModal = this.toggleAddNewModal.bind(this);
         this.toggleAreYouSureModal = this.toggleAreYouSureModal.bind(this);
         this.toggleEditModal = this.toggleEditModal.bind(this);
+        this.addNewProject = this.addNewProject.bind(this);
         this.updateProject = this.updateProject.bind(this);
         this.deleteProject = this.deleteProject.bind(this);
     }
@@ -62,9 +69,27 @@ class Admin extends Component {
             .catch(err => { console.log(err) });
     }
 
+    closeAllModals(){
+        this.setState({
+            showAddNewModal: false,
+            showAreYouSureModal: false,
+            showEditModal: false,
+        })
+    }
+
+    toggleAddNewModal(){
+        this.setState({
+            showAddNewModal: !this.state.showAddNewModal,
+            showAreYouSureModal: false,
+            showEditModal: false,
+        })
+    }
+
     toggleAreYouSureModal(projectIndex){
         this.setState({
             showAreYouSureModal: !this.state.showAreYouSureModal,
+            showAddNewModal: false,
+            showEditModal: false,
             projectToDelete: projectIndex,
         })
     }
@@ -72,12 +97,16 @@ class Admin extends Component {
     toggleEditModal(index){
         if (this.state.showEditModal){
             this.setState({
-                showEditModal: false
+                showEditModal: false,
+                showAddNewModal: false,
+                showAreYouSureModal: false,
             })
         }else{
             let project = this.state.projects[index];
             this.setState({
                 showEditModal: true,
+                showAddNewModal: false,
+                showAreYouSureModal: false,
                 projectId: project.id,
                 projectTitle: project.title,
                 projectDescription: project.description,
@@ -85,6 +114,15 @@ class Admin extends Component {
                 projectVideoLink: project.videoLink
             })
         }
+    }
+
+    addNewProject(){
+        let {newProjectDescription, newProjectImage, newProjectTitle, newProjectVideoLink} = this.state;
+        axios.post('/api/addProject', {newProjectDescription, newProjectImage, newProjectTitle, newProjectVideoLink})
+        .then( res=> {
+            console.log(res);
+        })
+        .catch(err=>{});
     }
 
     updateProject(){
@@ -140,7 +178,7 @@ class Admin extends Component {
                 <div className='projectsSection'>
                     <p className='projectsWrapperHeader' >Projects</p>
                     <div className='projectsContainer'>
-                        <div className='addProject'>
+                        <div className='addProject' onClick={this.toggleAddNewModal} >
                             <p>+ Add New</p>
                         </div>
                         {
@@ -152,23 +190,38 @@ class Admin extends Component {
                 </div>
 
                 { this.state.showAddNewModal &&
-                    <div className={`addNewModal modal`}>
-                        
+                    <div className={`modal`}>
+                    <p style={{fontSize: '10px'}}>TITLE</p>
+                        <p className='closeX' onClick={this.closeAllModals}>x</p>
+                        <input placeholder='Title' value={this.state.newProjectTitle} onChange={(e) => this.setState({newProjectTitle: e.target.value})} />
+                        <p style={{fontSize: '10px'}}>DESCRIPTION</p>
+                        <textarea placeholder='Description' value={this.state.newProjectDescription} onChange={(e) => this.setState({newProjectDescription: e.target.value})} />
+                        <p style={{fontSize: '10px'}}>IMAGE</p>
+                        <input placeholder='Image URL' value={this.state.newProjectImage} onChange={(e) => this.setState({newProjectImage: e.target.value})} />
+                        <p style={{fontSize: '10px'}}>VIDEO</p>
+                        <input placeholder='Video Link URL' value={this.state.newProjectVideoLink} onChange={(e) => this.setState({newProjectVideoLink: e.target.value})} />
+                        <button onClick={this.addNewProject} >Add New</button>
                     </div>
                 }
 
                 { this.state.showEditModal &&
-                    <div className={`editModal modal`}>>
-                        <input value={this.state.projectTitle} onChange={(e) => this.setState({projectTitle: e.target.value})} />
-                        <input value={this.state.projectDescription} onChange={(e) => this.setState({projectDescription: e.target.value})} />
-                        <input value={this.state.projectImage} onChange={(e) => this.setState({projectImage: e.target.value})} />
-                        <input value={this.state.projectVideoLink} onChange={(e) => this.setState({projectVideoLink: e.target.value})} />
-                        <button onClick={this.updateProject} >Save</button>
+                    <div className={`modal`}>
+                        <p className='closeX' onClick={this.closeAllModals}>x</p>
+                        <p style={{fontSize: '10px'}}>TITLE</p>
+                        <input placeholder='Title' value={this.state.projectTitle} onChange={(e) => this.setState({projectTitle: e.target.value})} />
+                        <p style={{fontSize: '10px'}}>DESCRIPTION</p>
+                        <textarea placeholder='Description' value={this.state.projectDescription} onChange={(e) => this.setState({projectDescription: e.target.value})} />
+                        <p style={{fontSize: '10px'}}>IMAGE</p>
+                        <input placeholder='image URL' value={this.state.projectImage} onChange={(e) => this.setState({projectImage: e.target.value})} />
+                        <p style={{fontSize: '10px'}}>VIDEO</p>
+                        <input placeholder='Video Link URL' value={this.state.projectVideoLink} onChange={(e) => this.setState({projectVideoLink: e.target.value})} />
+                        <button onClick={this.updateProject} >Update</button>
                     </div>
                 }
 
                 { this.state.showAreYouSureModal &&
-                    <div className={`areYouSureModal modal`}>
+                    <div className={`modal`}>
+                        <p className='closeX' onClick={this.closeAllModals}>x</p>
                         <p>Do you really want to delete this project? This cannot be undone.</p>
                         <button onClick={() => this.deleteProject()} >Yes</button>
                         <button onClick={() => this.toggleAreYouSureModal()} >No</button>

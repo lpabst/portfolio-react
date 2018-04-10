@@ -12,6 +12,7 @@ class Project extends Component {
                     <img src={project.image} alt={project.title} className='projectImage' />
                 </div>
                 <p className='projectDescription' >{project.description}</p>
+                <p className='projectDescription'>Video Link: {project.videoLink}</p>
                 <div className='projectButtons'>
                     <button onClick={() => this.props.toggleAreYouSureModal(index)} >Delete</button>
                     <button onClick={() => this.props.editProject(index)} >Edit</button>
