@@ -1,12 +1,12 @@
 
 .admin{
     padding: 50px 0px 100px 0px;
-    background: #333;
+    background: #111;
 }
 
 .projectsSection{
     width: 320px;
-    background: #666;
+    background: #ddd;
     margin: 0 auto;
     padding: 20px 0px 50px 0px;
 }
@@ -25,7 +25,7 @@
     justify-content: left;
     flex-wrap: wrap;
     align-content: flex-start;
-    background: #666;
+    background: #ddd;
 }
 
 .addProject{

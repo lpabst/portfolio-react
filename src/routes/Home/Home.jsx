@@ -71,7 +71,7 @@ class Home extends Component {
             <h1>LOREN PABST</h1>
             <h3>Web Developer</h3>
           </div>
-          <Link className='adminLogin' to='/login'></Link>
+          <Link className='adminLogin' to='/admin'></Link>
         </section>
 
         <section className='projectsSectionOuter'>
