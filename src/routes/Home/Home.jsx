@@ -27,6 +27,7 @@ class Home extends Component {
       ]
     }
 
+    this.changeHeaderCss = this.changeHeaderCss.bind(this);
     this.getProjects = this.getProjects.bind(this);
   }
 
@@ -34,6 +35,10 @@ class Home extends Component {
     this.getProjects();
     window.scrollTo(0,0);
     window.addEventListener("scroll", this.changeHeaderCss, false);
+  }
+
+  componentWillUnmount(){
+    window.removeEventListener('scroll', this.changeHeaderCss);
   }
 
   changeHeaderCss(){
