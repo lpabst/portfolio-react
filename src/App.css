@@ -29,6 +29,7 @@ header{
     position: absolute;
     top: 10px;
     left: 40px;
+    cursor: pointer;
     display: none;
 }
 
@@ -94,8 +95,6 @@ header{
 
 footer{
     font-size: 14px;
-    display: flex;
-    justify-content: space-around;
     padding: 20px 0px;
     background: #000;
     color: #eee;
@@ -104,5 +103,11 @@ footer{
 @media(min-width: 700px){
     .headerLogo{
         display: block;
+    }
+
+    
+    footer{
+        display: flex;
+        justify-content: space-around;
     }
 }

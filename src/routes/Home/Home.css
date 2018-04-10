@@ -7,6 +7,13 @@
     background-size: cover;
 }
 
+.adminLogin{
+    width: 60px;
+    height: 60vh;
+    position: absolute;
+    top: 20vh;
+    right: 0px;
+}
 
 .home_landing_content{
     width: 60%;

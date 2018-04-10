@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import {Link} from 'react-router-dom';
 import './Home.css'
 
 import Header from './../../components/Header.jsx';
@@ -36,7 +37,7 @@ class Home extends Component {
   }
 
   changeHeaderCss(){
-    let scrollAmt = 60;
+    let scrollAmt = window.scrollY;
     if (scrollAmt >= 60){
       document.querySelector('header').style.background = '#111';
     }else{
@@ -65,6 +66,7 @@ class Home extends Component {
             <h1>LOREN PABST</h1>
             <h3>Web Developer</h3>
           </div>
+          <Link className='adminLogin' to='/login'></Link>
         </section>
 
         <section className='projectsSectionOuter'>
