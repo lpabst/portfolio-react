@@ -49,6 +49,7 @@ class Admin extends Component {
             newProjectVideoLink: '',
         }
 
+        this.getProjects = this.getProjects.bind(this);
         this.closeAllModals = this.closeAllModals.bind(this);
         this.toggleAddNewModal = this.toggleAddNewModal.bind(this);
         this.toggleAreYouSureModal = this.toggleAreYouSureModal.bind(this);
@@ -66,15 +67,19 @@ class Admin extends Component {
                     document.querySelector('a.hidden').click();
                 } else {
                     // if the user is logged in as an admin, get the projects for them to see/edit
-                    axios.post('/api/getProjects')
-                        .then(res => {
-                            this.setState({
-                                projects: res.data.projects
-                            })
-                        })
-                        .catch(err => { console.log(err) });
+                    this.getProjects();
                 }
 
+            })
+            .catch(err => { console.log(err) });
+    }
+
+    getProjects(){
+        axios.post('/api/getProjects')
+            .then(res => {
+                this.setState({
+                    projects: res.data.projects
+                })
             })
             .catch(err => { console.log(err) });
     }
@@ -180,6 +185,9 @@ class Admin extends Component {
                 if (!res.data) {
                     console.log(res);
                     alert('unexpected error');
+                }
+                else if (res.data.successful){
+                    this.getProjects();
                 }
                 else if (res.data.message) {
                     alert(res.data.message);
