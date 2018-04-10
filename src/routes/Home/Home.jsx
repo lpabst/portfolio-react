@@ -101,7 +101,7 @@ class Home extends Component {
         <section className='aboutSection'>
           <p className='homeSectionHeader'>About Me</p>
           <div className='aboutPhoto' >
-            <img className='aboutPhoto' src='https://github.com/lpabst/portfolio/blob/master/public/img/headshot_img.jpg?raw=true' alt='headshot photo' />
+            <img className='aboutPhoto' src='https://github.com/lpabst/portfolio/blob/master/public/img/headshot_img.jpg?raw=true' alt='headshot' />
           </div>
           <p className='aboutContent'>
             I'm an avid programmer and developer, with a love for all things tech. I live in the Northern Utah area with my wife and two cats. I have a bachelor's degree from Utah State University (Go Aggies!) and a coding certificate from DevMountain. I enjoy coding, exercising, reading, and seeing new places! 

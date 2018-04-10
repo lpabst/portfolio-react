@@ -19,11 +19,13 @@ class Admin extends Component {
             projectTitle: '',
             projectDescription: '',
             projectImage: '',
+            projectLink: '',
             projectVideoLink: '',
             showAddNewModal: false,
             newProjectTitle: '',
             newProjectDescription: '',
             newProjectImage: '',
+            newProjectLink: '',
             newProjectVideoLink: '',
         }
 
@@ -104,14 +106,15 @@ class Admin extends Component {
                 projectTitle: project.title,
                 projectDescription: project.description,
                 projectImage: project.image,
-                projectVideoLink: project.videoLink
+                projectLink: project.projectlink,
+                projectVideoLink: project.videolink
             })
         }
     }
 
     addNewProject() {
-        let { newProjectDescription, newProjectImage, newProjectTitle, newProjectVideoLink } = this.state;
-        axios.post('/api/addProject', { newProjectDescription, newProjectImage, newProjectTitle, newProjectVideoLink })
+        let { newProjectDescription, newProjectImage, newProjectTitle, newProjectVideoLink, newProjectLink } = this.state;
+        axios.post('/api/addProject', { newProjectDescription, newProjectImage, newProjectTitle, newProjectVideoLink, newProjectLink })
             .then(res => {
                 if (!res.data) {
                     console.log(res);
@@ -136,8 +139,8 @@ class Admin extends Component {
     }
 
     updateProject() {
-        let { projectId, projectTitle, projectDescription, projectImage, projectVideoLink } = this.state;
-        axios.post('/api/updateProject', { projectId, projectTitle, projectDescription, projectImage, projectVideoLink })
+        let { projectId, projectTitle, projectDescription, projectImage, projectVideoLink, projectLink } = this.state;
+        axios.post('/api/updateProject', { projectId, projectTitle, projectDescription, projectImage, projectVideoLink, projectLink })
             .then(res => {
                 if (!res.data) {
                     console.log(res);
@@ -212,7 +215,9 @@ class Admin extends Component {
                         <textarea placeholder='Description' value={this.state.newProjectDescription} onChange={(e) => this.setState({ newProjectDescription: e.target.value })} />
                         <p style={{ fontSize: '10px' }}>IMAGE</p>
                         <input placeholder='Image URL' value={this.state.newProjectImage} onChange={(e) => this.setState({ newProjectImage: e.target.value })} />
-                        <p style={{ fontSize: '10px' }}>VIDEO</p>
+                        <p style={{ fontSize: '10px' }}>PROJECT LINK</p>
+                        <input placeholder='Project Link URL' value={this.state.newProjectLink} onChange={(e) => this.setState({ newProjectLink: e.target.value })} />
+                        <p style={{ fontSize: '10px' }}>VIDEO WALKTHROUGH LINK</p>
                         <input placeholder='Video Link URL' value={this.state.newProjectVideoLink} onChange={(e) => this.setState({ newProjectVideoLink: e.target.value })} />
                         <button onClick={this.addNewProject} >Add New</button>
                     </div>
@@ -226,8 +231,10 @@ class Admin extends Component {
                         <p style={{ fontSize: '10px' }}>DESCRIPTION</p>
                         <textarea placeholder='Description' value={this.state.projectDescription} onChange={(e) => this.setState({ projectDescription: e.target.value })} />
                         <p style={{ fontSize: '10px' }}>IMAGE</p>
-                        <input placeholder='image URL' value={this.state.projectImage} onChange={(e) => this.setState({ projectImage: e.target.value })} />
-                        <p style={{ fontSize: '10px' }}>VIDEO</p>
+                        <input placeholder='image URL' value={this.state.projectImage} onChange={(e) => this.setState({projectImage: e.target.value })} />
+                        <p style={{ fontSize: '10px' }}>PROJECT LINK</p>
+                        <input placeholder='Project Link URL' value={this.state.projectLink} onChange={(e) => this.setState({projectLink: e.target.value })} />
+                        <p style={{ fontSize: '10px' }}>VIDEO WALKTHROUGH LINK</p>
                         <input placeholder='Video Link URL' value={this.state.projectVideoLink} onChange={(e) => this.setState({ projectVideoLink: e.target.value })} />
                         <button onClick={this.updateProject} >Update</button>
                     </div>

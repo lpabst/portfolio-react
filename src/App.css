@@ -51,12 +51,12 @@ header{
 
 .modal{
     width: 300px;
-    height: 240PX;
+    min-height: 260PX;
     background: #ccc;
     box-shadow: 2px 2px 3px black;
     position: absolute;
     left: calc(50% - 150px);
-    top: calc(50% - 100px);
+    top: calc(50% - 130px);
     padding: 10px 10px;
 }
 

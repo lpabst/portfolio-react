@@ -50,9 +50,9 @@ module.exports = {
     }
     
     var db = app.get('db');
-    let {newProjectDescription, newProjectImage, newProjectTitle, newProjectVideoLink} = req.body;
+    let {newProjectDescription, newProjectImage, newProjectTitle, newProjectVideoLink, newProjectLink} = req.body;
     
-    db.addProject([newProjectTitle, newProjectDescription, newProjectImage, newProjectVideoLink])
+    db.addProject([newProjectTitle, newProjectDescription, newProjectImage, newProjectVideoLink, newProjectLink])
     .then(result => {
       return res.status(200).send({successful: true, message: 'Successfully added a new project to the db'});
     })
@@ -68,8 +68,8 @@ module.exports = {
       return res.status(200).send({isLoggedIn: false, message: 'Must be logged in to use this feature'});
     }
 
-    let {projectId, projectTitle, projectDescription, projectImage, projectVideoLink} = req.body;
-    db.updateProject([projectId, projectTitle, projectDescription, projectImage, projectVideoLink])
+    let {projectId, projectTitle, projectDescription, projectImage, projectVideoLink, projectLink} = req.body;
+    db.updateProject([projectId, projectTitle, projectDescription, projectImage, projectVideoLink, projectLink])
     .then( result => {
       console.log(result);
       return res.status(200).send({successful: true, message: 'Successfully edited the project info in the db'});
