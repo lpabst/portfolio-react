@@ -13,8 +13,8 @@ class Project extends Component {
                 </div>
                 <p className='projectDescription' >{project.description}</p>
                 <div className='projectButtons'>
-                    <button onClick={() => this.props.deleteProject} >Delete</button>
-                    <button onClick={() => this.props.editProject} >Edit</button>
+                    <button onClick={() => this.props.toggleAreYouSureModal()} >Delete</button>
+                    <button onClick={() => this.props.editProject()} >E)dit</button>
                 </div>
             </section>
         );

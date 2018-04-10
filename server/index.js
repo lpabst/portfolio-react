@@ -30,7 +30,9 @@ var userController = require("./userController.js");
 app.post('/api/login', userController.login);
 app.get('/api/isLoggedIn', userController.isLoggedIn);
 app.post('/api/getProjects', userController.getProjects);
-
+app.post('/api/addProject', userController.addProject);
+app.post('/api/updateProject', userController.updateProject);
+app.post('/api/deleteProject', userController.deleteProject);
 
 
 app.listen(config.port, console.log("you are now connected on " + config.port));
