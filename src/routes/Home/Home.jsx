@@ -75,7 +75,7 @@ class Home extends Component {
             <div className='projectsContainer'>
               {
                 this.state.projects.map((item, i) => {
-                  return <Project project={item} key={i} toggleAreYouSureModal={this.toggleAreYouSureModal} editProject={this.toggleEditModal} index={i} />
+                  return <Project project={item} key={i} toggleAreYouSureModal={this.toggleAreYouSureModal} editProject={this.toggleEditModal} index={i} controls={false} />
                 })
               }
             </div>
