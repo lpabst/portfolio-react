@@ -31,6 +31,13 @@ module.exports = {
     if (!req.session.isLoggedIn){
       return res.status(200).send({isLoggedIn: false, message: 'Must be logged in to use this feature'});
     }
+
+    let {newProjectDescription, newProjectImage, newProjectTitle, newProjectVideoLink} = req.body
+    db.addProject([newProjectDescription, newProjectImage, newProjectTitle, newProjectVideoLink])
+    .then(result => {
+      console.log(result);
+    })
+    .catch(err=>{});
   },
   
   updateProject: (req, res) => {
@@ -39,6 +46,13 @@ module.exports = {
     if (!req.session.isLoggedIn){
       return res.status(200).send({isLoggedIn: false, message: 'Must be logged in to use this feature'});
     }
+
+    let {projectId, projectTitle, projectDescription, projectImage, projectVideoLink} = req.body;
+    db.updateProject([projectId, projectTitle, projectDescription, projectImage, projectVideoLink])
+    .then( result => {
+      console.log(result);
+    })
+    .catch(err=>{});
   },
   
   deleteProject: (req, res) => {
@@ -47,5 +61,12 @@ module.exports = {
     if (!req.session.isLoggedIn){
       return res.status(200).send({isLoggedIn: false, message: 'Must be logged in to use this feature'});
     }
+
+    let {projectId} = req.body;
+    db.deleteProject([projectId])
+    .then( result => {
+      console.log(result);
+    })
+    .catch(err=>{});
   },
 };

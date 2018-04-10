@@ -151,9 +151,7 @@ class Admin extends Component {
 
     deleteProject(){
         let projectId = this.state.projects[this.state.projectToDelete].id;
-        axios.post('/api/deleteProject', {
-            projectId: projectId
-        })
+        axios.post('/api/deleteProject', {projectId})
         .then( res => {
             if (!res.data){
                 console.log(res);
