@@ -27,8 +27,8 @@ app.use(express.static(__dirname + './../build'))
 var userController = require("./userController.js");
 
 //////////Endpoints for the front end
-app.post('/api/login', userController.login);
 app.get('/api/isLoggedIn', userController.isLoggedIn);
+app.post('/api/login', userController.login);
 app.post('/api/getProjects', userController.getProjects);
 app.post('/api/addProject', userController.addProject);
 app.post('/api/updateProject', userController.updateProject);

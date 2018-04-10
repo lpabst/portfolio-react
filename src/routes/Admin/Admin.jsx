@@ -34,10 +34,20 @@ class Admin extends Component {
                 },
             ],
             showAreYouSureModal: false,
+            projectToDelete: null,
             showEditModal: false,
+            projectId: '',
+            projectTitle: '',
+            projectDescription: '',
+            projectImage: '',
+            projectVideoLink: '',
             showAddNewModal: false,
         }
 
+        this.toggleAreYouSureModal = this.toggleAreYouSureModal.bind(this);
+        this.toggleEditModal = this.toggleEditModal.bind(this);
+        this.updateProject = this.updateProject.bind(this);
+        this.deleteProject = this.deleteProject.bind(this);
     }
 
     componentDidMount() {
@@ -52,22 +62,51 @@ class Admin extends Component {
             .catch(err => { console.log(err) });
     }
 
-    toggleAreYouSureModal(){
+    toggleAreYouSureModal(projectIndex){
         this.setState({
-            showAreYouSureModal: !this.state.showAreYouSureModal
+            showAreYouSureModal: !this.state.showAreYouSureModal,
+            projectToDelete: projectIndex,
         })
     }
 
-    toggleEditModal(){
-        this.setState({
-            showEditModal: !this.state.showEditModal
-        })
+    toggleEditModal(index){
+        if (this.state.showEditModal){
+            this.setState({
+                showEditModal: false
+            })
+        }else{
+            let project = this.state.projects[index];
+            this.setState({
+                showEditModal: true,
+                projectId: project.id,
+                projectTitle: project.title,
+                projectDescription: project.description,
+                projectImage: project.image,
+                projectVideoLink: project.videoLink
+            })
+        }
     }
 
-    deleteProject(projectId){
+    updateProject(){
+        let {projectId, projectTitle, projectDescription, projectImage, projectVideoLink} = this.state;
+        axios.post('/api/updateProject', {projectId, projectTitle, projectDescription, projectImage, projectVideoLink})
+        .then( res => {
+            console.log(res);
+            // clear state
+        })
+        .catch(err=>{});
+    }
+
+    deleteProject(){
+        let projectId = this.state.projects[this.state.projectToDelete].id;
         axios.post('/api/delete', {
             projectId: projectId
         })
+        .then( res => {
+            console.log(res);
+            // clear state
+        })
+        .catch(err=>{});
     }
 
     render() {
@@ -82,26 +121,30 @@ class Admin extends Component {
                         </div>
                         {
                             this.state.projects.map((item, i) => {
-                                return <Project project={item} key={i} toggleAreYouSureModal={this.toggleAreYouSureModal} editProject={this.toggleEditModal} />
+                                return <Project project={item} key={i} toggleAreYouSureModal={this.toggleAreYouSureModal} editProject={this.toggleEditModal} index={i} />
                             })
                         }
                     </div>
                 </div>
 
                 { this.state.showAddNewModal &&
-                    <div className='addNewModal'>
+                    <div className={`addNewModal modal`}>
                         
                     </div>
                 }
 
                 { this.state.showEditModal &&
-                    <div className='editModal'>
-                        
+                    <div className={`editModal modal`}>>
+                        <input value={this.state.projectTitle} onChange={(e) => this.setState({projectTitle: e.target.value})} />
+                        <input value={this.state.projectDescription} onChange={(e) => this.setState({projectDescription: e.target.value})} />
+                        <input value={this.state.projectImage} onChange={(e) => this.setState({projectImage: e.target.value})} />
+                        <input value={this.state.projectVideoLink} onChange={(e) => this.setState({projectVideoLink: e.target.value})} />
+                        <button onClick={this.updateProject} >Save</button>
                     </div>
                 }
 
                 { this.state.showAreYouSureModal &&
-                    <div className='areYouSureModal'>
+                    <div className={`areYouSureModal modal`}>
                         <p>Do you really want to delete this project? This cannot be undone.</p>
                         <button onClick={() => this.deleteProject()} >Yes</button>
                         <button onClick={() => this.toggleAreYouSureModal()} >No</button>

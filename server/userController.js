@@ -1,6 +1,11 @@
 var app = require('./index.js');
 
 module.exports = {
+  isLoggedIn: (req, res) => {
+    isLoggedIn = req.session.isLoggedIn || false;
+    return res.status(200).send({isLoggedIn: isLoggedIn});
+  },
+
   login: (req, res) => {
     var db = app.get('db');
     let {username, password} = req.body;
@@ -9,10 +14,6 @@ module.exports = {
       console.log(user);
     })
     .catch(err=>{});
-  },
-
-  isLoggedIn: (req, res) => {
-    return res.status(200).send({isLoggedIn: req.session.isLoggedIn});
   },
   
   getProjects: function (req, res) {
@@ -42,6 +43,7 @@ module.exports = {
   
   deleteProject: (req, res) => {
     var db = app.get('db');
+    console.log(req.body);
 
     if (!req.session.isLoggedIn){
       return res.status(200).send({isLoggedIn: false, message: 'Must be logged in to use this feature'});

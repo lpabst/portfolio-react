@@ -51,6 +51,37 @@
     background: #ddd;
 }
 
+.modal{
+    background: #ccc;
+    box-shadow: 2px 2px 3px black;
+    position: absolute;
+    padding: 10px 10px;
+}
+
+.addNewModal{
+    
+}
+
+.editModal{
+
+}
+
+.areYouSureModal{
+    width: 260px;
+    height: 140px;
+    top: calc(50% - 70px);
+    left: calc(50% - 130px);
+}
+
+.areYouSureModal button{
+    width: 80px;
+    height: 25px;
+    display: block;
+    margin: 10px 0px 0px 80px;
+    cursor: pointer;
+}
+
+
 @media(min-width: 700px){
     .projectsSection{
         width: 645  px;

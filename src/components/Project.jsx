@@ -4,7 +4,7 @@ import './Project.css'
 
 class Project extends Component {
     render() {
-        let {project} = this.props;
+        let {project, index} = this.props;
         return (
             <section className='projectWrapper'>
                 <p className='projectTitle' >{project.title}</p>
@@ -13,8 +13,8 @@ class Project extends Component {
                 </div>
                 <p className='projectDescription' >{project.description}</p>
                 <div className='projectButtons'>
-                    <button onClick={() => this.props.toggleAreYouSureModal()} >Delete</button>
-                    <button onClick={() => this.props.editProject()} >E)dit</button>
+                    <button onClick={() => this.props.toggleAreYouSureModal(index)} >Delete</button>
+                    <button onClick={() => this.props.editProject(index)} >Edit</button>
                 </div>
             </section>
         );
