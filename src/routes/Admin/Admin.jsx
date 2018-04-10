@@ -99,12 +99,21 @@ class Admin extends Component {
 
     deleteProject(){
         let projectId = this.state.projects[this.state.projectToDelete].id;
-        axios.post('/api/delete', {
+        axios.post('/api/deleteProject', {
             projectId: projectId
         })
         .then( res => {
-            console.log(res);
-            // clear state
+            if (!res.data){
+                alert('unexpected error');
+            }
+            else if (res.data.message){
+                alert(res.data.message);
+            }
+            
+            this.setState({
+                projectToDelete: null,
+                showAreYouSureModal: false,
+            })
         })
         .catch(err=>{});
     }

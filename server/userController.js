@@ -35,7 +35,7 @@ module.exports = {
   
   updateProject: (req, res) => {
     var db = app.get('db');
-
+    
     if (!req.session.isLoggedIn){
       return res.status(200).send({isLoggedIn: false, message: 'Must be logged in to use this feature'});
     }
