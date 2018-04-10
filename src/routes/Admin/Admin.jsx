@@ -120,7 +120,21 @@ class Admin extends Component {
         let {newProjectDescription, newProjectImage, newProjectTitle, newProjectVideoLink} = this.state;
         axios.post('/api/addProject', {newProjectDescription, newProjectImage, newProjectTitle, newProjectVideoLink})
         .then( res=> {
-            console.log(res);
+            if (!res.data){
+                console.log(res);
+                alert('unexpected error');
+            }
+            else if (res.data.message){
+                alert(res.data.message);
+            }
+            
+            this.setState({
+                showAddNewModal: false,
+                newProjectTitle: '',
+                newProjectDescription: '',
+                newProjectImage: '',
+                newProjectVideoLink: '',
+            })
         })
         .catch(err=>{});
     }

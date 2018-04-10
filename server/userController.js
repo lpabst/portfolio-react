@@ -28,13 +28,16 @@ module.exports = {
   addProject: (req, res) => {
     var db = app.get('db');
     
-    if (!req.session.isLoggedIn){
-      return res.status(200).send({isLoggedIn: false, message: 'Must be logged in to use this feature'});
-    }
-
-    let {newProjectDescription, newProjectImage, newProjectTitle, newProjectVideoLink} = req.body
+    // if (!req.session.isLoggedIn){
+    //   return res.status(200).send({isLoggedIn: false, message: 'Must be logged in to use this feature'});
+    // }
+    
+    let {newProjectDescription, newProjectImage, newProjectTitle, newProjectVideoLink} = req.body;
+    console.log('adding project');
+    console.log(newProjectTitle);
     db.addProject([newProjectDescription, newProjectImage, newProjectTitle, newProjectVideoLink])
     .then(result => {
+      console.log('done');
       console.log(result);
     })
     .catch(err=>{});
