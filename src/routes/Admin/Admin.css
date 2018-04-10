@@ -51,50 +51,6 @@
     background: #ddd;
 }
 
-.modal{
-    width: 300px;
-    height: 240PX;
-    background: #ccc;
-    box-shadow: 2px 2px 3px black;
-    position: absolute;
-    left: calc(50% - 150px);
-    top: calc(50% - 100px);
-    padding: 10px 10px;
-}
-
-.modal input{
-    width: 250px;
-    display: block;
-    padding-left: 5px;
-    font-size: 12px;
-}
-
-.modal textarea{
-    width: 250px;
-    height: 80px;
-    resize: none;
-    display: block;
-    padding-left: 5px;
-    font-size: 12px;
-}
-
-.modal button{
-    width: 150px;
-    height: 25px;
-    display: block;
-    margin: 10px 75px 0px 75px;
-    cursor: pointer;
-}
-
-.closeX{
-    position: absolute;
-    top: 6px;
-    right: 10px;
-    font-size: 18px;
-    font-weight: bold;
-    cursor: pointer;
-}
-
 .areYouSureModal button{
     width: 80px;
     height: 25px;

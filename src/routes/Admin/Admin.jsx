@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
+import axios from 'axios';
+import {Link} from 'react-router-dom';
 import './Admin.css'
 
-import axios from 'axios';
 import Project from './../../components/Project.jsx';
 
 
@@ -60,16 +61,24 @@ class Admin extends Component {
     componentDidMount() {
         axios.get('/api/isLoggedIn')
             .then(response => {
-                console.log(response);
-            })
-        axios.post('/api/getProjects')
-            .then(res => {
-                console.log(res);
+                if (!response.data.isLoggedIn) {
+                    // redirect to sign in page
+                } else {
+                    // if the user is logged in as an admin, get the projects for them to see & edit
+                    axios.post('/api/getProjects')
+                        .then(res => {
+                            this.setState({
+                                projects: res.data.projects
+                            })
+                        })
+                        .catch(err => { console.log(err) });
+                }
+
             })
             .catch(err => { console.log(err) });
     }
 
-    closeAllModals(){
+    closeAllModals() {
         this.setState({
             showAddNewModal: false,
             showAreYouSureModal: false,
@@ -77,7 +86,7 @@ class Admin extends Component {
         })
     }
 
-    toggleAddNewModal(){
+    toggleAddNewModal() {
         this.setState({
             showAddNewModal: !this.state.showAddNewModal,
             showAreYouSureModal: false,
@@ -85,7 +94,7 @@ class Admin extends Component {
         })
     }
 
-    toggleAreYouSureModal(projectIndex){
+    toggleAreYouSureModal(projectIndex) {
         this.setState({
             showAreYouSureModal: !this.state.showAreYouSureModal,
             showAddNewModal: false,
@@ -94,14 +103,14 @@ class Admin extends Component {
         })
     }
 
-    toggleEditModal(index){
-        if (this.state.showEditModal){
+    toggleEditModal(index) {
+        if (this.state.showEditModal) {
             this.setState({
                 showEditModal: false,
                 showAddNewModal: false,
                 showAreYouSureModal: false,
             })
-        }else{
+        } else {
             let project = this.state.projects[index];
             this.setState({
                 showEditModal: true,
@@ -116,71 +125,71 @@ class Admin extends Component {
         }
     }
 
-    addNewProject(){
-        let {newProjectDescription, newProjectImage, newProjectTitle, newProjectVideoLink} = this.state;
-        axios.post('/api/addProject', {newProjectDescription, newProjectImage, newProjectTitle, newProjectVideoLink})
-        .then( res=> {
-            if (!res.data){
-                console.log(res);
-                alert('unexpected error');
-            }
-            else if (res.data.message){
-                alert(res.data.message);
-            }
-            
-            this.setState({
-                showAddNewModal: false,
-                newProjectTitle: '',
-                newProjectDescription: '',
-                newProjectImage: '',
-                newProjectVideoLink: '',
+    addNewProject() {
+        let { newProjectDescription, newProjectImage, newProjectTitle, newProjectVideoLink } = this.state;
+        axios.post('/api/addProject', { newProjectDescription, newProjectImage, newProjectTitle, newProjectVideoLink })
+            .then(res => {
+                if (!res.data) {
+                    console.log(res);
+                    alert('unexpected error');
+                }
+                else if (res.data.message) {
+                    alert(res.data.message);
+                }
+
+                this.setState({
+                    showAddNewModal: false,
+                    newProjectTitle: '',
+                    newProjectDescription: '',
+                    newProjectImage: '',
+                    newProjectVideoLink: '',
+                })
             })
-        })
-        .catch(err=>{});
+            .catch(err => { });
     }
 
-    updateProject(){
-        let {projectId, projectTitle, projectDescription, projectImage, projectVideoLink} = this.state;
-        axios.post('/api/updateProject', {projectId, projectTitle, projectDescription, projectImage, projectVideoLink})
-        .then( res => {
-            if (!res.data){
-                console.log(res);
-                alert('unexpected error');
-            }
-            else if (res.data.message){
-                alert(res.data.message);
-            }
-            
-            this.setState({
-                showEditModal: false,
-                projectId: '',
-                projectTitle: '',
-                projectDescription: '',
-                projectImage: '',
-                projectVideoLink: '',
+    updateProject() {
+        let { projectId, projectTitle, projectDescription, projectImage, projectVideoLink } = this.state;
+        axios.post('/api/updateProject', { projectId, projectTitle, projectDescription, projectImage, projectVideoLink })
+            .then(res => {
+                if (!res.data) {
+                    console.log(res);
+                    alert('unexpected error');
+                }
+                else if (res.data.message) {
+                    alert(res.data.message);
+                }
+
+                this.setState({
+                    showEditModal: false,
+                    projectId: '',
+                    projectTitle: '',
+                    projectDescription: '',
+                    projectImage: '',
+                    projectVideoLink: '',
+                })
             })
-        })
-        .catch(err=>{});
+            .catch(err => { });
     }
 
-    deleteProject(){
+    deleteProject() {
         let projectId = this.state.projects[this.state.projectToDelete].id;
-        axios.post('/api/deleteProject', {projectId})
-        .then( res => {
-            if (!res.data){
-                console.log(res);
-                alert('unexpected error');
-            }
-            else if (res.data.message){
-                alert(res.data.message);
-            }
-            
-            this.setState({
-                showAreYouSureModal: false,
-                projectToDelete: null,
+        axios.post('/api/deleteProject', { projectId })
+            .then(res => {
+                if (!res.data) {
+                    console.log(res);
+                    alert('unexpected error');
+                }
+                else if (res.data.message) {
+                    alert(res.data.message);
+                }
+
+                this.setState({
+                    showAreYouSureModal: false,
+                    projectToDelete: null,
+                })
             })
-        })
-        .catch(err=>{});
+            .catch(err => { });
     }
 
     render() {
@@ -201,37 +210,37 @@ class Admin extends Component {
                     </div>
                 </div>
 
-                { this.state.showAddNewModal &&
+                {this.state.showAddNewModal &&
                     <div className={`modal`}>
-                    <p style={{fontSize: '10px'}}>TITLE</p>
+                        <p style={{ fontSize: '10px' }}>TITLE</p>
                         <p className='closeX' onClick={this.closeAllModals}>x</p>
-                        <input placeholder='Title' value={this.state.newProjectTitle} onChange={(e) => this.setState({newProjectTitle: e.target.value})} />
-                        <p style={{fontSize: '10px'}}>DESCRIPTION</p>
-                        <textarea placeholder='Description' value={this.state.newProjectDescription} onChange={(e) => this.setState({newProjectDescription: e.target.value})} />
-                        <p style={{fontSize: '10px'}}>IMAGE</p>
-                        <input placeholder='Image URL' value={this.state.newProjectImage} onChange={(e) => this.setState({newProjectImage: e.target.value})} />
-                        <p style={{fontSize: '10px'}}>VIDEO</p>
-                        <input placeholder='Video Link URL' value={this.state.newProjectVideoLink} onChange={(e) => this.setState({newProjectVideoLink: e.target.value})} />
+                        <input placeholder='Title' value={this.state.newProjectTitle} onChange={(e) => this.setState({ newProjectTitle: e.target.value })} />
+                        <p style={{ fontSize: '10px' }}>DESCRIPTION</p>
+                        <textarea placeholder='Description' value={this.state.newProjectDescription} onChange={(e) => this.setState({ newProjectDescription: e.target.value })} />
+                        <p style={{ fontSize: '10px' }}>IMAGE</p>
+                        <input placeholder='Image URL' value={this.state.newProjectImage} onChange={(e) => this.setState({ newProjectImage: e.target.value })} />
+                        <p style={{ fontSize: '10px' }}>VIDEO</p>
+                        <input placeholder='Video Link URL' value={this.state.newProjectVideoLink} onChange={(e) => this.setState({ newProjectVideoLink: e.target.value })} />
                         <button onClick={this.addNewProject} >Add New</button>
                     </div>
                 }
 
-                { this.state.showEditModal &&
+                {this.state.showEditModal &&
                     <div className={`modal`}>
                         <p className='closeX' onClick={this.closeAllModals}>x</p>
-                        <p style={{fontSize: '10px'}}>TITLE</p>
-                        <input placeholder='Title' value={this.state.projectTitle} onChange={(e) => this.setState({projectTitle: e.target.value})} />
-                        <p style={{fontSize: '10px'}}>DESCRIPTION</p>
-                        <textarea placeholder='Description' value={this.state.projectDescription} onChange={(e) => this.setState({projectDescription: e.target.value})} />
-                        <p style={{fontSize: '10px'}}>IMAGE</p>
-                        <input placeholder='image URL' value={this.state.projectImage} onChange={(e) => this.setState({projectImage: e.target.value})} />
-                        <p style={{fontSize: '10px'}}>VIDEO</p>
-                        <input placeholder='Video Link URL' value={this.state.projectVideoLink} onChange={(e) => this.setState({projectVideoLink: e.target.value})} />
+                        <p style={{ fontSize: '10px' }}>TITLE</p>
+                        <input placeholder='Title' value={this.state.projectTitle} onChange={(e) => this.setState({ projectTitle: e.target.value })} />
+                        <p style={{ fontSize: '10px' }}>DESCRIPTION</p>
+                        <textarea placeholder='Description' value={this.state.projectDescription} onChange={(e) => this.setState({ projectDescription: e.target.value })} />
+                        <p style={{ fontSize: '10px' }}>IMAGE</p>
+                        <input placeholder='image URL' value={this.state.projectImage} onChange={(e) => this.setState({ projectImage: e.target.value })} />
+                        <p style={{ fontSize: '10px' }}>VIDEO</p>
+                        <input placeholder='Video Link URL' value={this.state.projectVideoLink} onChange={(e) => this.setState({ projectVideoLink: e.target.value })} />
                         <button onClick={this.updateProject} >Update</button>
                     </div>
                 }
 
-                { this.state.showAreYouSureModal &&
+                {this.state.showAreYouSureModal &&
                     <div className={`modal`}>
                         <p className='closeX' onClick={this.closeAllModals}>x</p>
                         <p>Do you really want to delete this project? This cannot be undone.</p>
@@ -239,6 +248,8 @@ class Admin extends Component {
                         <button onClick={() => this.toggleAreYouSureModal()} >No</button>
                     </div>
                 }
+
+                <Link className='hidden' to='/login'>Hidden Login Link</Link>
 
             </section>
         );

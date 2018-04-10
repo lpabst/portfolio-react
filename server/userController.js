@@ -9,9 +9,18 @@ module.exports = {
   login: (req, res) => {
     var db = app.get('db');
     let {username, password} = req.body;
+    
     db.login([username, password])
     .then( user => {
-      console.log(user);
+      if (!user[0]){
+        req.session.user = {};
+        req.session.isLoggedIn = false;
+        return res.status(200).send({successful: false, message: 'Wrong username or password'});
+      }else{
+        req.session.user = user[0];
+        req.session.isLoggedIn = true;
+        return res.status(200).send({successful: true, message: 'Successful login'});
+      }
     })
     .catch(err=>{});
   },
@@ -20,7 +29,12 @@ module.exports = {
     var db = app.get('db');
     db.getProjects()
     .then( projects => {
-      console.log(projects);
+      let data = {
+        isLoggedIn: req.session.isLoggedIn || false,
+        projects: projects,
+        message: 'Found the projects'
+      }
+      return res.status(200).send(data);
     })
     .catch(err=>{});
   },
