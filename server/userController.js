@@ -1,37 +1,50 @@
 var app = require('./index.js');
-var db = app.get('db');
 
 module.exports = {
-  getUserInfo: function(req, res){
-      console.log("get user info running");
-    db.find_by_id([req.session.passport.user.google_id],function(err,user){
-      if (err){
-        res.status(400).json(err);
-      }else if (user[0]){
-        res.status(200).json(user[0]);
-      }else if (user){
-        res.status(200).json(user);
-      }
-    });
+  login: (req, res) => {
+    var db = app.get('db');
+    let {username, password} = req.body;
+    db.login([username, password])
+    .then( user => {
+      console.log(user);
+    })
+    .catch(err=>{});
   },
-    
-  findById: function(accessToken,refreshToken,profile, done){
-      db.find_by_id([profile.id],function(err,user){
 
-          if(!user[0]){//if there isnt one, create!!
-            console.log('CREATING USER');
-            console.log('profile');
-            db.create_google_user([profile.id,profile.name.familyName, profile.name.givenName, accessToken],function(err,user){
-              console.log('USER CREATED',user);
-              return done(err,user);//goes to serialize user
-            })
-          }else{//if we find a user, return it
-            console.log('FOUND USER', user)
-            return done(err,user);
-          }
-
-      })
-
-  }
+  isLoggedIn: (req, res) => {
+    return res.status(200).send({isLoggedIn: req.session.isLoggedIn});
+  },
   
+  getProjects: function (req, res) {
+    var db = app.get('db');
+    db.getProjects()
+    .then( projects => {
+      console.log(projects);
+    })
+    .catch(err=>{});
+  },
+  
+  addProject: (req, res) => {
+    var db = app.get('db');
+
+    if (!req.session.isLoggedIn){
+      return res.status(200).send({isLoggedIn: false, message: 'Must be logged in to use this feature'});
+    }
+  },
+  
+  updateProject: (req, res) => {
+    var db = app.get('db');
+
+    if (!req.session.isLoggedIn){
+      return res.status(200).send({isLoggedIn: false, message: 'Must be logged in to use this feature'});
+    }
+  },
+  
+  deleteProject: (req, res) => {
+    var db = app.get('db');
+
+    if (!req.session.isLoggedIn){
+      return res.status(200).send({isLoggedIn: false, message: 'Must be logged in to use this feature'});
+    }
+  },
 };
