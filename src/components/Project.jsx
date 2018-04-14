@@ -15,7 +15,14 @@ class Project extends Component {
                 </div>
 
                 <p className='projectDescription' >{project.description}</p>
-                <p className='projectDescription'>Project Link: <span><a target='_blank' href={`http://${project.projectlink}`}>{project.projectlink}</a></span></p>
+                <p className='projectDescription'>Project Link: 
+                    <span>
+                        {project.projectlink ? 
+                            <a target='_blank' href={`http://${project.projectlink}`}>{project.projectlink}</a>
+                        : <span>Coming Soon!</span>
+                        }
+                    </span>
+                </p>
                 {(project.video || this.props.controls) && <p className='projectDescription'>Video Walkthrough: {project.video}</p>}
 
                 { this.props.controls && 

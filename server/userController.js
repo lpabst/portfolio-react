@@ -71,7 +71,6 @@ module.exports = {
     let {projectId, projectTitle, projectDescription, projectImage, projectVideoLink, projectLink} = req.body;
     db.updateProject([projectId, projectTitle, projectDescription, projectImage, projectVideoLink, projectLink])
     .then( result => {
-      console.log(result);
       return res.status(200).send({successful: true, message: 'Successfully edited the project info in the db'});
     })
     .catch(err=>{
