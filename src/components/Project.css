@@ -1,6 +1,7 @@
 .projectWrapper{
     width: 300px;
     min-height: 300px;
+    height: fit-content;
     border: 1px solid gray;
     border-radius: 5px;
     box-shadow: 2px 2px 3px black;
